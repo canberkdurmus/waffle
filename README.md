@@ -12,7 +12,7 @@ stats 		→ stat stats | Ɛ
 ifstat 		→ if ( boolexpr ) stat else stat | if ( boolexp ) stat  
 loopstat	→ loop ( boolexpr ) stat  
 assgnstat 	→ ID assgnop arithexpr ;  
-assgnop	→ = | *= | /= | %= | += | -=  
+assgnop	→ = | \*= | /= | %= | += | -=  
 boolexp	→ aritexp boolop aritexp  
 boolop		→ < | > | <= | >= | == | !=  
 logexp		→ aritexp logop aritexp  
