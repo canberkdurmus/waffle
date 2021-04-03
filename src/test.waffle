@@ -1,8 +1,14 @@
 int a
 int b
 int c
+int d
+
+fun sum (first, second){
+    result = first + second
+    return result
+}
 
 a = 10
 b = 5
-
 c = a * 4 + b
+d = sum(c, 20)
