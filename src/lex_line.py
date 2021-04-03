@@ -9,7 +9,8 @@ class LexLine:
         self.tokens = []
         self.current = ''
 
-        self.symbols = ['<', '>', '=', '!', '*', '/', '%', '+', '-']
+        self.operators = ['<', '>', '=', '!', '*', '/', '%', '+', '-']
+        self.symbols = ['{', '}', '[', ']', '(', ')', '.', ',', '"']
         self.keywords = ['int', 'str', 'real', 'fun', 'if', 'else', 'loop', 'and', 'or']
 
         self.tokenize()
@@ -19,6 +20,16 @@ class LexLine:
             self.current = current
             if self.debug:
                 print(current, self.flag)
+
+            if current in self.symbols:
+                if self.flag == 0:
+                    self.temp += self.current
+                    self.terminate_token()
+                else:
+                    self.terminate_token()
+                    self.tokens.append(self.current)
+                # self.tokens.append(current)
+                continue
 
             if self.flag == 0:
                 # Head is not set yet
@@ -64,10 +75,10 @@ class LexLine:
                     continue
 
             elif self.flag == 3:
-                # Head is a symbol
-                # if current is a symbol, add it to tokens and terminate
-                # if current is not a symbol, terminate token
-                if self.current in self.symbols:
+                # Head is an operator
+                # if current is an operator, add it to tokens and terminate
+                # if current is not an operator, terminate token
+                if self.current in self.operators:
                     self.temp += self.current
                     # TERMINATE TOKEN
                     # self.terminate_token()
@@ -81,7 +92,8 @@ class LexLine:
     def terminate_token(self):
         if self.debug:
             print('terminate')
-        self.tokens.append(self.temp)
+        if self.temp != '':
+            self.tokens.append(self.temp)
         self.temp = ''
         self.flag = self.flag_value()
         if self.flag != 0:
@@ -92,7 +104,7 @@ class LexLine:
             return 1
         elif self.current.isnumeric():
             return 2
-        elif self.current in self.symbols:
+        elif self.current in self.operators:
             return 3
         else:
             return 0
