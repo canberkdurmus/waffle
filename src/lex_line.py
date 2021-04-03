@@ -6,14 +6,21 @@ class LexLine:
         self.temp = ''
         self.flag = 0
         self.dot_flag = False
-        self.tokens = []
         self.current = ''
+        self.tokens = []
+        self.classified = []
 
         self.operators = ['<', '>', '=', '!', '*', '/', '%', '+', '-']
-        self.symbols = ['{', '}', '[', ']', '(', ')', '.', ',', '"']
+        self.symbols = ['{', '}', '[', ']', '(', ')', ',', '"']
         self.keywords = ['int', 'str', 'real', 'fun', 'if', 'else', 'loop', 'and', 'or']
 
+        self.assign_ops = ['=', '*=', '/=' '%=', '+=', '-=']
+        self.bool_ops = ['<', '>' '<=', '>=', '==', '!=']
+        self.unary_ops = ['+', '-', '*', '/', '!', '++', '--', '%']
+        self.identifier_set = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")
+
         self.tokenize()
+        self.classify()
 
     def tokenize(self):
         for current in self.line:
@@ -109,8 +116,68 @@ class LexLine:
         else:
             return 0
 
+    def classify(self):
+        for token in self.tokens:
+            if token in self.symbols:
+                self.classified.append(('symbol', token))
+            elif token in self.keywords:
+                self.classified.append(('keyword', token))
+            elif token in self.assign_ops:
+                self.classified.append(('assign_op', token))
+            elif token in self.bool_ops:
+                self.classified.append(('bool_op', token))
+            elif token in self.unary_ops:
+                self.classified.append(('unary_op', token))
+            elif all(k in self.identifier_set for k in token):
+                self.classified.append(('id', token))
+            elif self.is_int(token):
+                self.classified.append(('int_num', token))
+            elif self.is_real_num(token):
+                self.classified.append(('real_num', token))
+            else:
+                # RAISE UNKNOWN TYPE ERROR
+                print('ERROR Unknown Type: ', token)
+                self.classified.append(('unknown', token))
+
+    def print_tokenized(self):
+        print(self.line, end='')
+        if len(self.line) < 50:
+            for i in range(50 - len(self.line)):
+                print('.', end='')
+        else:
+            print('\t', end='')
+        print(self.tokens)
+
+    def print_classified(self):
+        print(self.line, end='')
+        if len(self.line) < 50:
+            for i in range(50 - len(self.line)):
+                print('.', end='')
+        else:
+            print('\t', end='')
+        print(self.classified)
+
+    @staticmethod
+    def is_real_num(number):
+        try:
+            float(number)
+            return True
+        except ValueError:
+            return False
+
+    @staticmethod
+    def is_int(number):
+        try:
+            a = float(number)
+            b = int(a)
+        except (TypeError, ValueError):
+            return False
+        else:
+            return a == b
+
 
 if __name__ == '__main__':
     test_line = 'result = one + two'
     lex = LexLine(test_line)
-    print(lex.tokens)
+    lex.print_tokenized()
+    lex.print_classified()
