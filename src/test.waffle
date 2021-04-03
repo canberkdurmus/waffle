@@ -10,5 +10,5 @@ fun sum (first, second){
 
 a = 10
 b = 5
-c = a * 4 + b
+c = a * 4.5 + b
 d = sum(c, 20)
