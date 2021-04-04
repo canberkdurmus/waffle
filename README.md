@@ -2,7 +2,6 @@
 Waffle is a new programming language with a language description and its own compiler. Created only for academic purposes.
 
 ## Grammar
-program 	→ decls compoundstat  
 decls 		→ decl, decls | Ɛ  
 decl 		→ int ID | str ID | real ID
 functiondecl	→ fun ID ( decls ) compoundstat  
@@ -32,9 +31,8 @@ simplexp 	→ ID | INTNUM | REALNUM | STRING | ( aritexp )
 **Numbers:** 
 digit 		→ 0 | 1 | 2 | 3 | 4 | 5 | 6  | 7 | 8 | 9  
 intnumber 	→ digit+  
-exponent  	→ E ( + | - |  Ɛ) digit+  
 fraction  	→ .digit+  
-realnumber  	→ digit+ exponent | digit+ fraction ( exponent |  Ɛ)  
+realnumber  	→ digit+ fraction ( exponent |  Ɛ)  
 
 ## Contributors
 
