@@ -15,7 +15,7 @@ class LexicalAnalyzer:
             lex = LexLine(line, debug=False)
             lex.print_classified()
 
-            for token in lex.tokens:
+            for token in lex.classified:
                 self.tokens.append(token)
 
             self.tokens.append(('symbol', '$'))
