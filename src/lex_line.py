@@ -12,7 +12,7 @@ class LexLine:
 
         self.operators = ['<', '>', '=', '!', '*', '/', '%', '+', '-']
         self.symbols = ['{', '}', '[', ']', '(', ')', ',', '"']
-        self.keywords = ['int', 'str', 'real', 'fun', 'if', 'else', 'loop', 'and', 'or']
+        self.keywords = ['int', 'str', 'real', 'fun', 'if', 'else', 'loop', 'and', 'or', 'return']
 
         self.assign_ops = ['=', '*=', '/=' '%=', '+=', '-=']
         self.bool_ops = ['<', '>' '<=', '>=', '==', '!=']
