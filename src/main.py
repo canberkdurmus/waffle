@@ -1,19 +1,10 @@
-from lex_line import LexLine
+from lexical_analyzer import LexicalAnalyzer
+from parser import Parser
 
 if __name__ == '__main__':
-    source_file = open('test.waffle', 'r')
+    lexical_analyzer = LexicalAnalyzer('test.waffle')
 
-    lines = source_file.readlines()
-    count = 0
-
-    for line in lines:
-        count += 1
-        line = line.replace('\n', '')
-        if len(line) == 0 or line[0] == '#':
-            continue
-        lex = LexLine(line, debug=False)
-        # lex.print_tokenized()
-        lex.print_classified()
+    parser = Parser(lexical_analyzer.tokens)
 
 # Bug List:
 # I can tokenize infinite number of symbols together
