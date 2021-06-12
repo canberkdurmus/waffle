@@ -3,7 +3,7 @@ Waffle is a new programming language with a language description and its own com
 
 ## Grammar
 decls 		→ decl, decls | Ɛ  
-decl 		→ int ID | str ID | real ID
+decl 		→ int ID | str ID | real ID  
 functiondecl	→ fun ID ( decls ) compoundstat  
 stat 		→ ifstat | loopstat | assgstat | compoundstat  
 compoundstat → { stats }  
