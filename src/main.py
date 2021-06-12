@@ -2,7 +2,7 @@ from lexical_analyzer import LexicalAnalyzer
 from parser import Parser
 
 if __name__ == '__main__':
-    lexical_analyzer = LexicalAnalyzer('test.waffle')
+    lexical_analyzer = LexicalAnalyzer('light.waffle')
 
     parser = Parser(lexical_analyzer.tokens)
 
