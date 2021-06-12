@@ -8,8 +8,8 @@ functiondecl	→ fun ID ( decls ) compoundstat
 stat 		→ ifstat | loopstat | assgstat | compoundstat  
 compoundstat → { stats }  
 stats 		→ stat stats | Ɛ  
-ifstat 		→ if ( boolexpr ) stat else stat | if ( boolexp ) stat  
-loopstat	→ loop ( boolexpr ) stat  
+ifstat 		→ if ( boolexpr ) compundstat else compundstat | if ( boolexp ) compundstat  
+loopstat	→ loop ( boolexpr ) compundstat  
 assgnstat 	→ ID assgnop arithexpr ;  
 assgnop	→ = | \*= | /= | %= | += | -=  
 boolexp	→ aritexp boolop aritexp  
