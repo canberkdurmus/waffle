@@ -1,10 +1,12 @@
 from lexical_analyzer import LexicalAnalyzer
 from parser import Parser
+from parse_tree import ParseTree
 
 if __name__ == '__main__':
-    lexical_analyzer = LexicalAnalyzer('light.waffle')
+    lexical_analyzer = LexicalAnalyzer('test.waffle')
 
-    parser = Parser(lexical_analyzer.tokens)
+    # parser = Parser(lexical_analyzer.tokens)
+    ParseTree(lexical_analyzer.tokens)
 
 # Bug List:
 # I can tokenize infinite number of symbols together
