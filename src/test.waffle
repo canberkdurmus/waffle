@@ -19,7 +19,7 @@ c = a * 4.5 + b
 d = double(c)
 
 loop ( d < 100) {
-    d++
+    d = d + 1
 }
 
 if (a < 10) {
