@@ -21,7 +21,7 @@ class Node:
         print('Declaration: ', tokens)
         print(len(self.children))
 
-    def parse_fundecl(self, tokens, parameters, body):
+    def parse_fun_decl(self, tokens, parameters, body):
         node = Node([])
         i = 0
         node.add_leaf(tokens[0])  # fun
@@ -56,10 +56,10 @@ class Node:
         print(node.children)
         print(len(self.children))
 
-    def parse_loop_stat(self, tokens, boolexp, body):
+    def parse_loop_stat(self, tokens, bool_exp, body):
         ...
 
-    def parse_if_stat(self, tokens, boolexp, if_body, else_body):
+    def parse_if_stat(self, tokens, bool_exp, if_body, else_body):
         ...
 
     def parse_return_stat(self, tokens):
@@ -134,18 +134,17 @@ class Node:
                 del tmp_fun_body[0]
                 del tmp_fun_body[-1]
 
-                self.parse_fundecl(tmp_tokens, tmp_parameters, tmp_fun_body)
+                self.parse_fun_decl(tmp_tokens, tmp_parameters, tmp_fun_body)
 
             elif token == 'loop':
                 # Loop Statement (multi line)
                 tmp_tokens = []
-                token_type = token
                 tmp_tokens.append(token)  # Add 'loop'
                 index, token, token_type = self.get_next_token(index, tokens)
                 tmp_tokens.append(token)  # Add '('
                 index, token, token_type = self.get_next_token(index, tokens)
 
-                boolexp = []
+                bool_exp = []
                 parenthesis_stack = 1
                 while parenthesis_stack > 0:
                     if token == '(':
@@ -153,9 +152,9 @@ class Node:
                     elif token == ')':
                         parenthesis_stack -= 1
                     tmp_tokens.append(token)
-                    boolexp.append((token_type, token))
+                    bool_exp.append((token_type, token))
                     index, token, token_type = self.get_next_token(index, tokens)
-                del boolexp[-1]
+                del bool_exp[-1]
 
                 tmp_tokens.append(token)  # Add '{'
                 index, token, token_type = self.get_next_token(index, tokens)
@@ -172,7 +171,7 @@ class Node:
                     index, token, token_type = self.get_next_token(index, tokens)
                 del loop_body[-1]
 
-                self.parse_loop_stat(tmp_tokens, boolexp, loop_body)
+                self.parse_loop_stat(tmp_tokens, bool_exp, loop_body)
 
             elif token == 'if':
                 # If Statement (multi line)
