@@ -13,6 +13,16 @@ fun sum (int first, int second){
     return result
 }
 
+fun count (int from, int target){
+    if (from < target){
+        loop (from < target) {
+            from = from + 1
+        }
+    } else {
+        return 0
+    }
+}
+
 a = 10
 b = 5
 c = a * 4.5 + b
@@ -23,7 +33,7 @@ loop ( d < 100) {
 }
 
 if (a < 10) {
-    a++
+    a = a + 1
 } else {
-    a--
+    a = a - 1
 }
