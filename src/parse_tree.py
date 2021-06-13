@@ -48,7 +48,7 @@ class Node:
         print(node.children)
         print(len(self.children))
 
-    def parse_assignstat(self, tokens):
+    def parse_assign_stat(self, tokens):
         print('Statement assignment', tokens)
         node = Node([])
         node.add_leaves(tokens)
@@ -56,13 +56,13 @@ class Node:
         print(node.children)
         print(len(self.children))
 
-    def parse_loopstat(self, tokens, boolexp, body):
+    def parse_loop_stat(self, tokens, boolexp, body):
         ...
 
-    def parse_ifstat(self, tokens, boolexp, if_body, else_body):
+    def parse_if_stat(self, tokens, boolexp, if_body, else_body):
         ...
 
-    def parse_returnstat(self, tokens):
+    def parse_return_stat(self, tokens):
         ...
 
     def parse_root(self, tokens):
@@ -94,7 +94,7 @@ class Node:
                 while token != '$':
                     tmp_tokens.append(token)
                     index, token, token_type = self.get_next_token(index, tokens)
-                self.parse_assignstat(tmp_tokens)
+                self.parse_assign_stat(tmp_tokens)
 
             elif token == 'fun':
                 # Function (multi line)
@@ -172,7 +172,7 @@ class Node:
                     index, token, token_type = self.get_next_token(index, tokens)
                 del loop_body[-1]
 
-                self.parse_loopstat(tmp_tokens, boolexp, loop_body)
+                self.parse_loop_stat(tmp_tokens, boolexp, loop_body)
 
             elif token == 'if':
                 # If Statement (multi line)
@@ -226,7 +226,7 @@ class Node:
                         index, token, token_type = self.get_next_token(index, tokens)
                     del else_body[-1]
 
-                self.parse_ifstat(tmp_tokens, conditional, if_body, else_body)
+                self.parse_if_stat(tmp_tokens, conditional, if_body, else_body)
 
             elif token == 'return':
                 # Return Statement (one line)
@@ -234,7 +234,7 @@ class Node:
                 while token != '$':
                     tmp_tokens.append(token)
                     index, token, token_type = self.get_next_token(index, tokens)
-                self.parse_returnstat(tmp_tokens)
+                self.parse_return_stat(tmp_tokens)
 
             else:
                 # Raise error
