@@ -2,16 +2,14 @@ int a
 int b
 int c
 int d
-
-fun sum (first, second){
-    result = first + second
+fun double (int first){
+    result = first * 2
     return result
 }
-
 a = 10
 b = 5
 c = a * 4.5 + b
-d = sum(c, 20)
+d = double(c)
 
 loop ( d < 100) {
     d++
