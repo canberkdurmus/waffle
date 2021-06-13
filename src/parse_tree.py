@@ -1,6 +1,7 @@
 class Node:
-    def __init__(self, tokens):
+    def __init__(self, tokens, value):
         self.children = []
+        self.value = value
         self.parse_root(tokens)
 
     def add_leaf(self, leaf):
@@ -15,14 +16,14 @@ class Node:
         self.children = self.children + leaves
 
     def parse_decl(self, tokens):
-        node = Node([])
+        node = Node([], 'decl')
         node.add_leaf(tokens)
         self.children.append(node)
         print('Declaration: ', tokens)
         print(len(self.children))
 
     def parse_fun_decl(self, tokens, parameters, body):
-        node = Node([])
+        node = Node([], 'functiondecl')
         i = 0
         node.add_leaf(tokens[i])  # fun
         i += 1
@@ -30,7 +31,7 @@ class Node:
         i += 1
         node.add_leaf(tokens[i])  # (
         i += 1
-        tmp_node = Node([])
+        tmp_node = Node([], 'decls')
         tmp_node.add_leaves(parameters)
         i += len(parameters)
         node.add_leaf(tmp_node)  # parameters
@@ -38,7 +39,7 @@ class Node:
         i += 1
         node.add_leaf(tokens[i])  # {
         i += 1
-        tmp_node = Node(body)
+        tmp_node = Node(body, 'compoundtat')
         node.add_leaf(tmp_node)  # function body
         i += len(body) + 1
         node.add_leaf(tokens[i])  # }
@@ -50,7 +51,7 @@ class Node:
 
     def parse_assign_stat(self, tokens):
         print('Statement assignment', tokens)
-        node = Node([])
+        node = Node([], 'assgstat')
         node.add_leaves(tokens)
         self.add_leaf(node)
         print(node.children)
@@ -59,13 +60,13 @@ class Node:
     def parse_loop_stat(self, tokens, bool_exp, body):
         print(bool_exp)
         print(body)
-        node = Node([])
+        node = Node([], 'loopstat')
         i = 0
         node.add_leaf(tokens[i])  # loop
         i += 1
         node.add_leaf(tokens[i])  # (
         i += 1
-        tmp_node = Node([])
+        tmp_node = Node([], 'boolexp')
         tmp_node.add_leaves(bool_exp)
         i += len(bool_exp)
         node.add_leaf(tmp_node)  # bool_exp
@@ -73,7 +74,7 @@ class Node:
         i += 1
         node.add_leaf(tokens[i])  # {
         i += 1
-        tmp_node = Node(body)
+        tmp_node = Node(body, 'compundstat')
         node.add_leaf(tmp_node)  # loop body
         i += len(body) + 1
         node.add_leaf(tokens[i])  # }
@@ -87,13 +88,13 @@ class Node:
         print(bool_exp)
         print(if_body)
         print(else_body)
-        node = Node([])
+        node = Node([], 'ifstat')
         i = 0
         node.add_leaf(tokens[i])  # if
         i += 1
         node.add_leaf(tokens[i])  # (
         i += 1
-        tmp_node = Node([])
+        tmp_node = Node([], 'boolexp')
         tmp_node.add_leaves(bool_exp)
         i += len(bool_exp)
         node.add_leaf(tmp_node)  # bool_exp
@@ -101,7 +102,7 @@ class Node:
         i += 1
         node.add_leaf(tokens[i])  # {
         i += 1
-        tmp_node = Node(if_body)
+        tmp_node = Node(if_body, 'compoundstat')
         node.add_leaf(tmp_node)  # if body
         i += len(if_body) + 1
         node.add_leaf(tokens[i])  # }
@@ -111,7 +112,7 @@ class Node:
             i += 1
             node.add_leaf(tokens[i])  # {
             i += 1
-            tmp_node = Node(else_body)
+            tmp_node = Node(else_body, 'compoundstat')
             node.add_leaf(tmp_node)  # else body
             i += len(else_body) + 1
             node.add_leaf(tokens[i])  # }
@@ -123,7 +124,7 @@ class Node:
 
     def parse_return_stat(self, tokens):
         print('Statement return', tokens)
-        node = Node([])
+        node = Node([], 'returnstat')
         node.add_leaves(tokens)
         self.add_leaf(node)
         print(node.children)
@@ -317,4 +318,23 @@ class Node:
 
 class ParseTree:
     def __init__(self, tokens):
-        self.root = Node(tokens)
+        self.root = Node(tokens, 'root')
+        print("== begin traverse ==")
+        self.traverse(self.root, 0)
+
+    def traverse(self, node, depth):
+        # print('')
+        for child in node.children:
+            # print('|', end='')
+            if not isinstance(child, Node):
+                for i in range(depth):
+                    print('|----', end='')
+                print(' ', end='')
+                print(child)
+            else:
+                for i in range(depth):
+                    print('|----', end='')
+                print(' ', end='')
+                print(child.value)
+                self.traverse(child, depth + 1)
+        # print('')
