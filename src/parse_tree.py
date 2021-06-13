@@ -84,10 +84,50 @@ class Node:
         print(len(self.children))
 
     def parse_if_stat(self, tokens, bool_exp, if_body, else_body):
-        ...
+        print(bool_exp)
+        print(if_body)
+        print(else_body)
+        node = Node([])
+        i = 0
+        node.add_leaf(tokens[i])  # if
+        i += 1
+        node.add_leaf(tokens[i])  # (
+        i += 1
+        tmp_node = Node([])
+        tmp_node.add_leaves(bool_exp)
+        i += len(bool_exp)
+        node.add_leaf(tmp_node)  # bool_exp
+        node.add_leaf(tokens[i])  # )
+        i += 1
+        node.add_leaf(tokens[i])  # {
+        i += 1
+        tmp_node = Node(if_body)
+        node.add_leaf(tmp_node)  # if body
+        i += len(if_body) + 1
+        node.add_leaf(tokens[i])  # }
+        i += 1
+        if len(else_body) != 0:
+            node.add_leaf(tokens[i])  # else
+            i += 1
+            node.add_leaf(tokens[i])  # {
+            i += 1
+            tmp_node = Node(else_body)
+            node.add_leaf(tmp_node)  # else body
+            i += len(else_body) + 1
+            node.add_leaf(tokens[i])  # }
+            i += 1
+        self.add_leaf(node)
+        print('If: ', tokens)
+        print(node.children)
+        print(len(self.children))
 
     def parse_return_stat(self, tokens):
-        ...
+        print('Statement return', tokens)
+        node = Node([])
+        node.add_leaves(tokens)
+        self.add_leaf(node)
+        print(node.children)
+        print(len(self.children))
 
     def parse_root(self, tokens):
         if len(tokens) == 0:
@@ -231,6 +271,7 @@ class Node:
                     tmp_tokens.append(token)
                     if_body.append((token_type, token))
                     index, token, token_type = self.get_next_token(index, tokens)
+                del if_body[0]
                 del if_body[-1]
 
                 else_body = []
@@ -248,6 +289,7 @@ class Node:
                         tmp_tokens.append(token)
                         else_body.append((token_type, token))
                         index, token, token_type = self.get_next_token(index, tokens)
+                    del else_body[0]
                     del else_body[-1]
 
                 self.parse_if_stat(tmp_tokens, conditional, if_body, else_body)
