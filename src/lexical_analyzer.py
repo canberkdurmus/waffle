@@ -3,6 +3,7 @@ from lex_line import LexLine
 
 class LexicalAnalyzer:
     def __init__(self, filename):
+        print('\n== Starting of lexical analysis == \n')
         source_file = open(filename, 'r')
         self.tokens = []
 
@@ -20,4 +21,5 @@ class LexicalAnalyzer:
 
             self.tokens.append(('symbol', '$'))
 
-        print(self.tokens)
+        # print(self.tokens)
+        print('\n== End of lexical analysis == \n')
