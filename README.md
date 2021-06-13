@@ -5,17 +5,16 @@ Waffle is a new programming language with a language description and its own com
 decls 		→ decl, decls | Ɛ  
 decl 		→ int ID | str ID | real ID  
 functiondecl	→ fun ID ( decls ) compoundstat  
-stat 		→ ifstat | loopstat | assgstat | compoundstat  
+stat 		→ ifstat | loopstat | assgstat | returnstat | compoundstat  
 compoundstat → { stats }  
 stats 		→ stat stats | Ɛ  
 ifstat 		→ if ( boolexpr ) compundstat else compundstat | if ( boolexp ) compundstat  
 loopstat	→ loop ( boolexpr ) compundstat  
-assgnstat 	→ ID assgnop arithexpr ;  
+assgnstat 	→ ID assgnop arithexpr  
+returnstat  → return stat  
 assgnop	→ = | \*= | /= | %= | += | -=  
 boolexp	→ aritexp boolop aritexp  
-boolop		→ < | > | <= | >= | == | !=  
-logexp		→ aritexp logop aritexp  
-logop		→ and | or  
+boolop		→ < | > | <= | >= | == | !=   
 unaryexp	→ unaryop aritexp  
 unaryop	→ + | - | ! | ++ | --  
 aritexp 		→ aritexpr + multexp | aritexp - multexp | multexp  
