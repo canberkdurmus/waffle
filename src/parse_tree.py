@@ -31,8 +31,9 @@ class Node:
         i += 1
         node.add_leaf(tokens[i])  # {
         i += 1
-        tmp_node = Node([])
-        tmp_node.children = tmp_node.children + body
+        print('body', body)
+        tmp_node = Node(body)
+        # tmp_node.children = tmp_node.children + body
         node.add_leaf(tmp_node)  # function body
         i += len(body)
         node.add_leaf(tokens[i])  # }
@@ -55,7 +56,11 @@ class Node:
                 index, token, token_type = self.get_next_token(index, tokens)
                 # print('parsing', index, token, token_type)
 
-            if token == 'int' or token == 'str' or token == 'real':
+            if token == '$':
+                index, token, token_type = self.get_next_token(index, tokens)
+                continue
+
+            elif token == 'int' or token == 'str' or token == 'real':
                 # Declaration (one line)
                 tmp_tokens = []
                 while token != '$':
@@ -89,7 +94,7 @@ class Node:
                     elif token == ')':
                         parenthesis_stack -= 1
                     tmp_tokens.append(token)
-                    tmp_parameters.append(token)
+                    tmp_parameters.append((token_type, token))
                     index, token, token_type = self.get_next_token(index, tokens)
                 del tmp_parameters[-1]
 
@@ -104,8 +109,9 @@ class Node:
                     elif token == '}':
                         braces_stack -= 1
                     tmp_tokens.append(token)
-                    tmp_fun_body.append(token)
+                    tmp_fun_body.append((token_type, token))
                     index, token, token_type = self.get_next_token(index, tokens)
+                del tmp_fun_body[0]
                 del tmp_fun_body[-1]
 
                 self.parse_fundecl(tmp_tokens, tmp_parameters, tmp_fun_body)
@@ -188,9 +194,17 @@ class Node:
 
                 self.parse_stat(tmp_tokens, token_type)
 
+            elif token == 'return':
+                # Return Statement (one line)
+                tmp_tokens = []
+                while token != '$':
+                    tmp_tokens.append(token)
+                    index, token, token_type = self.get_next_token(index, tokens)
+                self.parse_stat(tmp_tokens, 'return')
+
             else:
                 # Raise error
-                print('PARSER ERROR: ILLEGAL TOKEN: ', token, token_type)
+                print('PARSER ERROR: ILLEGAL TOKEN: ', token_type, token)
                 return
 
     @staticmethod
