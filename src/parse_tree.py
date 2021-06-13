@@ -24,11 +24,11 @@ class Node:
     def parse_fun_decl(self, tokens, parameters, body):
         node = Node([])
         i = 0
-        node.add_leaf(tokens[0])  # fun
+        node.add_leaf(tokens[i])  # fun
         i += 1
-        node.add_leaf(tokens[1])  # function name
+        node.add_leaf(tokens[i])  # function name
         i += 1
-        node.add_leaf(tokens[2])  # (
+        node.add_leaf(tokens[i])  # (
         i += 1
         tmp_node = Node([])
         tmp_node.add_leaves(parameters)
@@ -57,7 +57,31 @@ class Node:
         print(len(self.children))
 
     def parse_loop_stat(self, tokens, bool_exp, body):
-        ...
+        print(bool_exp)
+        print(body)
+        node = Node([])
+        i = 0
+        node.add_leaf(tokens[i])  # loop
+        i += 1
+        node.add_leaf(tokens[i])  # (
+        i += 1
+        tmp_node = Node([])
+        tmp_node.add_leaves(bool_exp)
+        i += len(bool_exp)
+        node.add_leaf(tmp_node)  # bool_exp
+        node.add_leaf(tokens[i])  # )
+        i += 1
+        node.add_leaf(tokens[i])  # {
+        i += 1
+        tmp_node = Node(body)
+        node.add_leaf(tmp_node)  # loop body
+        i += len(body) + 1
+        node.add_leaf(tokens[i])  # }
+        i += 1
+        self.add_leaf(node)
+        print('Loop: ', tokens)
+        print(node.children)
+        print(len(self.children))
 
     def parse_if_stat(self, tokens, bool_exp, if_body, else_body):
         ...
@@ -169,6 +193,7 @@ class Node:
                     tmp_tokens.append(token)
                     loop_body.append((token_type, token))
                     index, token, token_type = self.get_next_token(index, tokens)
+                del loop_body[0]
                 del loop_body[-1]
 
                 self.parse_loop_stat(tmp_tokens, bool_exp, loop_body)
