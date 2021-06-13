@@ -19,8 +19,8 @@ class Node:
         node = Node([], 'decl')
         node.add_leaf(tokens)
         self.children.append(node)
-        print('Declaration: ', tokens)
-        print(len(self.children))
+        # print('Declaration: ', tokens)
+        # print(len(self.children))
 
     def parse_fun_decl(self, tokens, parameters, body):
         node = Node([], 'functiondecl')
@@ -45,21 +45,21 @@ class Node:
         node.add_leaf(tokens[i])  # }
         i += 1
         self.add_leaf(node)
-        print('Function: ', tokens)
-        print(node.children)
-        print(len(self.children))
+        # print('Function: ', tokens)
+        # print(node.children)
+        # print(len(self.children))
 
     def parse_assign_stat(self, tokens):
-        print('Statement assignment', tokens)
+        # print('Statement assignment', tokens)
         node = Node([], 'assgstat')
         node.add_leaves(tokens)
         self.add_leaf(node)
-        print(node.children)
-        print(len(self.children))
+        # print(node.children)
+        # print(len(self.children))
 
     def parse_loop_stat(self, tokens, bool_exp, body):
-        print(bool_exp)
-        print(body)
+        # print(bool_exp)
+        # print(body)
         node = Node([], 'loopstat')
         i = 0
         node.add_leaf(tokens[i])  # loop
@@ -80,14 +80,14 @@ class Node:
         node.add_leaf(tokens[i])  # }
         i += 1
         self.add_leaf(node)
-        print('Loop: ', tokens)
-        print(node.children)
-        print(len(self.children))
+        # print('Loop: ', tokens)
+        # print(node.children)
+        # print(len(self.children))
 
     def parse_if_stat(self, tokens, bool_exp, if_body, else_body):
-        print(bool_exp)
-        print(if_body)
-        print(else_body)
+        # print(bool_exp)
+        # print(if_body)
+        # print(else_body)
         node = Node([], 'ifstat')
         i = 0
         node.add_leaf(tokens[i])  # if
@@ -118,17 +118,17 @@ class Node:
             node.add_leaf(tokens[i])  # }
             i += 1
         self.add_leaf(node)
-        print('If: ', tokens)
-        print(node.children)
-        print(len(self.children))
+        # print('If: ', tokens)
+        # print(node.children)
+        # print(len(self.children))
 
     def parse_return_stat(self, tokens):
-        print('Statement return', tokens)
+        # print('Statement return', tokens)
         node = Node([], 'returnstat')
         node.add_leaves(tokens)
         self.add_leaf(node)
-        print(node.children)
-        print(len(self.children))
+        # print(node.children)
+        # print(len(self.children))
 
     def parse_root(self, tokens):
         if len(tokens) == 0:
@@ -319,13 +319,12 @@ class Node:
 class ParseTree:
     def __init__(self, tokens):
         self.root = Node(tokens, 'root')
-        print("== begin traverse ==")
+        print("== Begin Parse Tree Traverse ==")
         self.traverse(self.root, 0)
+        print("== End Parse Tree Traverse ==")
 
     def traverse(self, node, depth):
-        # print('')
         for child in node.children:
-            # print('|', end='')
             if not isinstance(child, Node):
                 for i in range(depth):
                     print('|----', end='')
@@ -334,7 +333,5 @@ class ParseTree:
             else:
                 for i in range(depth):
                     print('|----', end='')
-                print(' ', end='')
                 print(child.value)
                 self.traverse(child, depth + 1)
-        # print('')
