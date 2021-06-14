@@ -13,10 +13,16 @@ fun sum (int first, int second){
     return result
 }
 
+# Uniqueness check error (d already defined)
+# int d
+
 fun count (int from, int target){
     if (from < target){
         loop (from < target) {
             from = from + 1
+            if (from > 100){
+                break
+            }
         }
     } else {
         return 0
@@ -25,6 +31,8 @@ fun count (int from, int target){
 
 a = 10
 b = 5
+# Flow check error (break not in a loop)
+# break
 c = a * 4.5 + b
 d = double(c)
 
