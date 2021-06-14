@@ -2,6 +2,7 @@ int a
 int b
 int c
 int d
+int result
 
 fun double (int first){
     result = first * 2
@@ -16,7 +17,9 @@ fun sum (int first, int second){
 # Uniqueness check error (d already defined)
 # int d
 
-fun count (int from, int target){
+fun count (int target){
+    int from
+    from = 0
     if (from < target){
         loop (from < target) {
             from = from + 1
