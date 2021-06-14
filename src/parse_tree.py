@@ -57,6 +57,8 @@ class Node:
 
     def parse_assign_stat(self, tokens):
         # print('Statement assignment', tokens)
+        if not st.symbol_exists(tokens[0]):
+            print("ERROR SYMBOL NOT DEFINED (NAME-RELATED CHECK):", tokens[0])
         node = Node([], 'assgstat')
         node.add_leaves(tokens)
         self.add_leaf(node)
