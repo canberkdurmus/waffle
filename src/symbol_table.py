@@ -15,7 +15,7 @@ class SymbolTable:
         return self.table[symbol]
 
     def print_table(self):
-        print('--- Symbol Table ---')
+        print('- Symbol Table -')
         for key in self.table:
             print("|-------|-------|")
             print('|', key, '\t|', self.table[key], '\t|')
