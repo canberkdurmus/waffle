@@ -1,3 +1,8 @@
+from symbol_table import SymbolTable
+
+st = SymbolTable()
+
+
 class Node:
     def __init__(self, tokens, value):
         self.children = []
@@ -18,6 +23,7 @@ class Node:
     def parse_decl(self, tokens):
         node = Node([], 'decl')
         node.add_leaf(tokens)
+        st.add_symbol(tokens[1], tokens[0])
         self.children.append(node)
         # print('Declaration: ', tokens)
         # print(len(self.children))
@@ -125,6 +131,14 @@ class Node:
     def parse_return_stat(self, tokens):
         # print('Statement return', tokens)
         node = Node([], 'returnstat')
+        node.add_leaves(tokens)
+        self.add_leaf(node)
+        # print(node.children)
+        # print(len(self.children))
+
+    def parse_break_stat(self, tokens):
+        # print('Statement break', tokens)
+        node = Node([], 'breakstat')
         node.add_leaves(tokens)
         self.add_leaf(node)
         # print(node.children)
@@ -303,6 +317,14 @@ class Node:
                     index, token, token_type = self.get_next_token(index, tokens)
                 self.parse_return_stat(tmp_tokens)
 
+            elif token == 'break':
+                # Break Statement (one line)
+                tmp_tokens = []
+                while token != '$':
+                    tmp_tokens.append(token)
+                    index, token, token_type = self.get_next_token(index, tokens)
+                self.parse_break_stat(tmp_tokens)
+
             else:
                 # Raise error
                 print('PARSER ERROR: ILLEGAL TOKEN: ', token_type, token)
@@ -319,9 +341,11 @@ class Node:
 class ParseTree:
     def __init__(self, tokens):
         self.root = Node(tokens, 'root')
-        print("== Begin Parse Tree Traverse ==")
+        print("\n== Begin Parse Tree Traverse ==")
         self.traverse(self.root, 0)
-        print("== End Parse Tree Traverse ==")
+        print("== End Parse Tree Traverse ==\n")
+        st.print_table()
+        self.flow_check(self.root, 0, False)
 
     def traverse(self, node, depth):
         for child in node.children:
@@ -335,3 +359,18 @@ class ParseTree:
                     print('|----', end='')
                 print(child.value)
                 self.traverse(child, depth + 1)
+
+    def flow_check(self, node, depth, breakable):
+        for child in node.children:
+            if not isinstance(child, Node):
+                # print(' ', end='')
+                # print(child)
+                if child == 'breakstat' and not breakable:
+                    print("TYPE CHECKING ERROR, BREAK ERROR (FLOW CHECK):", child.va)
+            else:
+                # for i in range(depth):
+                # print('|----', end='')
+                if child.value == 'breakstat' and not breakable:
+                    print("TYPE CHECKING ERROR, BREAK ERROR (FLOW CHECK):", child.value)
+                # print(child.value, breakable)  # node
+                self.flow_check(child, depth + 1, True)
