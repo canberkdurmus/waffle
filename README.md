@@ -53,9 +53,3 @@ digit → 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 intnumber → digit+  
 fraction → .digit+  
 realnumber → digit+ fraction ( exponent | Ɛ)
-
-## Contributors
-
-[Elif Balcı](https://www.elifbalci.com)  
-[Can Berk Durmuş](https://www.canberkdurmus.com)  
-[Ali Anıl Reyhan](https://www.anilreyhan.com)  
